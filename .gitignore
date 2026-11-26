@@ -1,0 +1,36 @@
+# ROS 2 / Colcon build directories
+build/
+install/
+log/
+COLCON_IGNORE
+AMENT_IGNORE
+
+# Python bytecode, caches, and packaging
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# CMake / C++ build artifacts
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.o
+*.so
+*.a
+
+# IDE & Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS metadata
+.DS_Store
+Thumbs.db

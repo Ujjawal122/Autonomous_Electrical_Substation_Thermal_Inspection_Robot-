@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org">
+
+  <!-- Wheel Friction & Colors in Gazebo -->
+  <gazebo reference="caster_wheel_link">
+    <mu1>0.001</mu1>
+    <mu2>0.001</mu2>
+  </gazebo>
+
+  <!-- 1. Differential Drive Plugin (Moves the robot via /cmd_vel) -->
+  <gazebo>
+    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+      <left_joint>left_wheel_joint</left_joint>
+      <right_joint>right_wheel_joint</right_joint>
+      <wheel_separation>0.36</wheel_separation>
+      <wheel_radius>0.065</wheel_radius>
+      <odom_publish_frequency>30</odom_publish_frequency>
+      <topic>/cmd_vel</topic>
+      <odom_topic>/odom</odom_topic>
+      <tf_topic>/tf</tf_topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_footprint</child_frame_id>
+    </plugin>
+
+    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+      <topic>/joint_states</topic>
+    </plugin>
+  </gazebo>
+
+  <!-- 2. 2D LiDAR Sensor Plugin (Publishes /scan) -->
+  <gazebo reference="laser_frame">
+    <sensor name="lidar" type="gpu_lidar">
+      <pose>0 0 0 0 0 0</pose>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+      <update_rate>10</update_rate>
+      <topic>/scan</topic>
+      <gz_frame_id>laser_frame</gz_frame_id>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.15</min>
+          <max>12.0</max>
+          <resolution>0.01</resolution>
+        </range>
+      </lidar>
+    </sensor>
+  </gazebo>
+
+  <!-- 3. Thermal / RGB Inspection Camera Plugin (Publishes /camera/image_raw) -->
+  <gazebo reference="camera_frame">
+    <sensor name="inspection_camera" type="camera">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+      <update_rate>15</update_rate>
+      <topic>/camera/image_raw</topic>
+      <gz_frame_id>camera_frame</gz_frame_id>
+      <camera>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>15.0</far>
+        </clip>
+      </camera>
+    </sensor>
+  </gazebo>
+
+</robot>
